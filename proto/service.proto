@@ -1,0 +1,102 @@
+syntax = "proto2";
+
+option go_package = "/pb";
+
+
+// COMMAND: protoc --go_out=proto/ proto/service.proto
+
+message Constant {
+  enum ErrorCode {
+    ERROR_CODE_SUCCESS = 0;
+    ERROR_CODE_INVALID_REQUEST_TYPE = 1;
+    ERROR_CODE_INVALID_RESPONSE_TYPE = 2;
+    ERROR_CODE_INVALID_REQUEST_PARAM = 3;
+    ERROR_CODE_BUSINESS_ERROR = 4;
+    ERROR_CODE_UNAUTHORIZED_OPERATION = 5;
+  }
+
+}
+
+message RequestMeta {
+  optional int32 user_id = 1;
+}
+
+
+message RegisterUserRequest {
+  optional RequestMeta request_meta = 1;
+  optional string email = 2;
+  optional string password = 3;
+}
+
+message RegisterUserResponse {
+  optional int32 error = 1;
+  optional string error_message = 2;
+  optional bool is_successful = 3;
+  optional string token = 4;
+}
+
+message HealthCheckRequest {
+}
+
+message HealthCheckResponse {
+  optional int32 error = 1;
+  optional string error_message = 2;
+}
+
+message LoginRequest {
+  optional RequestMeta request_meta = 1;
+  optional string email = 2;
+  optional string password = 3;
+}
+
+message LoginResponse {
+  optional int32 error = 1;
+  optional string error_message = 2;
+  optional string token = 3;
+}
+
+message SearchTrackRequest {
+  optional RequestMeta request_meta = 1;
+  optional string title = 2;
+  optional string artist = 3;
+}
+
+message SearchTrackResponse {
+  optional int32 error = 1;
+  optional string error_message = 2;
+  repeated Track results = 3;
+}
+
+message Track {
+  optional string title = 1;
+  optional string artist_name = 2;
+  optional string genre = 3;
+  optional string track_image_url = 4;
+}
+
+message Artist {
+  optional string artist_name = 1;
+  optional string artist_image_url = 2;
+}
+
+message SearchArtistRequest {
+  optional RequestMeta request_meta = 1;
+  optional string name = 2;
+}
+
+message SearchArtistResponse {
+  optional int32 error = 1;
+  optional string error_message = 2;
+  repeated Artist results = 3;
+}
+
+message UpdateDisplayNameRequest {
+  optional RequestMeta request_meta = 1;
+  optional string display_name = 2;
+}
+
+message UpdateDisplayNameResponse {
+  optional int32 error = 1;
+  optional string error_message = 2;
+  optional bool is_successful = 3;
+}
