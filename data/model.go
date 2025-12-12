@@ -39,3 +39,19 @@ func (u *User) GetSalt() string {
 func (u *User) GetHash() string {
 	return *u.Hash
 }
+
+type UserTopPick struct {
+	UserTopPickID     *int32  `gorm:"primaryKey;column:user_top_pick_id"`
+	UserID            *int32  `gorm:"index;column:user_id"`
+	Type              *string `gorm:"type:enum('artist','song')"`
+	PeriodType        *string `gorm:"type:enum('all_time','week','month');column:period_type"`
+	Year              *int32
+	Week              *int32
+	Month             *int32
+	Ranking           *int32
+	ItemID            *int32     `gorm:"column:item_id"`
+	DiscogsItemName   *string    `gorm:"column:discogs_item_name"`
+	DiscogsExternalID *int32     `gorm:"column:discogs_external_id"`
+	CreatedAt         *time.Time `gorm:"column:created_at"`
+	UpdatedAt         *time.Time `gorm:"column:updated_at"`
+}

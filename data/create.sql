@@ -31,3 +31,19 @@ CREATE TABLE users
     PRIMARY KEY (user_id)
 );
 
+CREATE TABLE user_top_picks (
+    user_top_pick_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    type ENUM('artist', 'song'),
+    period_type ENUM('all_time', 'week', 'month'),
+    year INT,
+    week INT,
+    month INT,
+    ranking INT,
+    item_id INT,
+    discogs_item_name VARCHAR(128),
+    discogs_external_id VARCHAR(128),
+    created_at DATETIME,
+    updated_at DATETIME,
+    INDEX(user_id)
+);

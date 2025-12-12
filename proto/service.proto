@@ -100,3 +100,35 @@ message UpdateDisplayNameResponse {
   optional string error_message = 2;
   optional bool is_successful = 3;
 }
+
+message TopArtist {
+  optional string artist_name = 1;
+  optional int32 external_dg_id = 2;
+}
+
+message TopSongs {
+  optional string song_name = 1;
+  optional int32 external_dg_id = 2;
+}
+
+message AddTopArtistsRequest {
+  optional RequestMeta request_meta = 1;
+  repeated TopArtist top_artists = 2;
+}
+
+message AddTopArtistsResponse {
+  optional int32 error = 1;
+  optional string error_message = 2;
+  optional bool is_successful = 3;
+}
+
+message AddTopSongsRequest {
+  optional RequestMeta request_meta = 1;
+  repeated TopSongs top_songs = 2;
+}
+
+message AddTopSongsResponse {
+  optional int32 error = 1;
+  optional string error_message = 2;
+  optional bool is_successful = 3;
+}
