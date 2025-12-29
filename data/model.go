@@ -41,17 +41,51 @@ func (u *User) GetHash() string {
 }
 
 type UserTopPick struct {
-	UserTopPickID     *int32  `gorm:"primaryKey;column:user_top_pick_id"`
-	UserID            *int32  `gorm:"index;column:user_id"`
-	Type              *string `gorm:"type:enum('artist','song')"`
-	PeriodType        *string `gorm:"type:enum('all_time','week','month');column:period_type"`
-	Year              *int32
-	Week              *int32
-	Month             *int32
-	Ranking           *int32
-	ItemID            *int32     `gorm:"column:item_id"`
-	DiscogsItemName   *string    `gorm:"column:discogs_item_name"`
-	DiscogsExternalID *int32     `gorm:"column:discogs_external_id"`
-	CreatedAt         *time.Time `gorm:"column:created_at"`
-	UpdatedAt         *time.Time `gorm:"column:updated_at"`
+	UserTopPickID        *int32  `gorm:"primaryKey;column:user_top_pick_id"`
+	UserID               *int32  `gorm:"index;column:user_id"`
+	Type                 *string `gorm:"type:enum('artist','song')"`
+	PeriodType           *string `gorm:"type:enum('all_time','week','month');column:period_type"`
+	Year                 *int32
+	Week                 *int32
+	Month                *int32
+	Ranking              *int32
+	ItemID               *int32  `gorm:"column:item_id"`
+	DiscogsItemName      *string `gorm:"column:discogs_item_name"`
+	DiscogsExternalID    *int32  `gorm:"column:discogs_external_id"`
+	AppleMusicItemName   *string
+	AppleMusicExternalID *string
+	CreatedAt            *time.Time `gorm:"column:created_at"`
+	UpdatedAt            *time.Time `gorm:"column:updated_at"`
+}
+
+type SongSuggestionCard struct {
+	SongSuggestionCardID *int32     `gorm:"primaryKey;column:song_suggestion_card_id"`
+	SongTitle            *string    `gorm:"column:song_title"`
+	ArtistName           *string    `gorm:"column:artist_name"`
+	ImageURL             *string    `gorm:"column:image_url"`
+	CardHeader           *string    `gorm:"column:card_header"`
+	CardSubheader        *string    `gorm:"column:card_subheader"`
+	RecommendReason      *string    `gorm:"column:recommend_reason"`
+	CreatedAt            *time.Time `gorm:"column:created_at"`
+	UpdatedAt            *time.Time `gorm:"column:updated_at"`
+}
+
+type SongPollCard struct {
+	SongPollCardID *int32                `gorm:"primaryKey;column:song_poll_card_id"`
+	CardHeader     *string               `gorm:"column:card_header"`
+	CardSubheader  *string               `gorm:"column:card_subheader"`
+	CardDisclaimer *string               `gorm:"column:card_disclaimer"`
+	CreatedAt      *time.Time            `gorm:"column:created_at"`
+	UpdatedAt      *time.Time            `gorm:"column:updated_at"`
+	Options        []*SongPollCardOption `gorm:"foreignKey:SongPollCardID"`
+}
+
+type SongPollCardOption struct {
+	SongPollCardOptionID *int32     `gorm:"primaryKey;column:song_poll_card_option_id"`
+	SongPollCardID       *int32     `gorm:"index;column:song_poll_card_id"`
+	SongTitle            *string    `gorm:"column:song_title"`
+	ArtistName           *string    `gorm:"column:artist_name"`
+	ImageURL             *string    `gorm:"column:image_url"`
+	CreatedAt            *time.Time `gorm:"column:created_at"`
+	UpdatedAt            *time.Time `gorm:"column:updated_at"`
 }

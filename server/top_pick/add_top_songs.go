@@ -39,8 +39,9 @@ func AddTopSongsFlow(ctx context.Context, request *pb.AddTopSongsRequest, respon
 	var songList []*module.TopPickSong
 	for _, a := range topSongs {
 		songList = append(songList, &module.TopPickSong{
-			SongName:  a.GetSongName(),
-			DiscogsId: a.GetExternalDgId(),
+			SongName:     a.GetSongName(),
+			DiscogsId:    a.GetExternalDgId(),
+			AppleMusicId: a.GetExternalAmId(),
 		})
 	}
 

@@ -43,7 +43,42 @@ CREATE TABLE user_top_picks (
     item_id INT,
     discogs_item_name VARCHAR(128),
     discogs_external_id VARCHAR(128),
+    apple_music_item_name VARCHAR(128),
+    apple_music_external_id VARCHAR(128),
     created_at DATETIME,
     updated_at DATETIME,
     INDEX(user_id)
+);
+
+
+CREATE TABLE song_suggestion_cards (
+   song_suggestion_card_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+   song_title VARCHAR(128),
+   artist_name VARCHAR(128),
+   image_url VARCHAR(512),
+   card_header VARCHAR(128),
+   card_subheader VARCHAR(256),
+   recommend_reason VARCHAR(256),
+   created_at DATETIME,
+   updated_at DATETIME
+);
+
+CREATE TABLE song_poll_cards (
+     song_poll_card_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+     card_header VARCHAR(128),
+     card_subheader VARCHAR(256),
+     card_disclaimer VARCHAR(256),
+     created_at DATETIME,
+     updated_at DATETIME
+);
+
+CREATE TABLE song_poll_card_options (
+    song_poll_card_option_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    song_poll_card_id INT NOT NULL,
+    song_title VARCHAR(128),
+    artist_name VARCHAR(128),
+    image_url VARCHAR(512),
+    created_at DATETIME,
+    updated_at DATETIME,
+    FOREIGN KEY (song_poll_card_id) REFERENCES song_poll_cards(song_poll_card_id)
 );

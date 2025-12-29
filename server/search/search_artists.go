@@ -6,6 +6,7 @@ import (
 	"music-twin-backend/common"
 	"music-twin-backend/module"
 	"music-twin-backend/proto/pb"
+	"strings"
 )
 
 const (
@@ -35,7 +36,7 @@ func SearchArtistFlow(ctx context.Context, request *pb.SearchArtistRequest, resp
 		return
 	}
 
-	resp, err := module.SearchArtist(ctx, name)
+	resp, err := module.SearchAppleMusicArtist(ctx, name)
 
 	if err != nil {
 		response.Error = proto.Int32(int32(pb.Constant_ERROR_CODE_BUSINESS_ERROR))
@@ -45,9 +46,26 @@ func SearchArtistFlow(ctx context.Context, request *pb.SearchArtistRequest, resp
 
 	response.Error = proto.Int32(int32(pb.Constant_ERROR_CODE_SUCCESS))
 	response.ErrorMessage = proto.String("success")
-	response.Results = ConvertResultsToArtistResp(resp.Results)
+	response.Results = ConvertAppleMusicArtistResultsToResp(resp)
 
 	return int32(pb.Constant_ERROR_CODE_SUCCESS)
+}
+
+func ConvertAppleMusicArtistResultsToResp(res *common.AppleMusicSearchResponse) []*pb.Artist {
+	final := make([]*pb.Artist, 0)
+
+	for _, artist := range res.Results.Artists.Data {
+		artworkUrl := artist.Attributes.Artwork.Url
+		artworkUrl = strings.ReplaceAll(artworkUrl, "{w}", "500")
+		artworkUrl = strings.ReplaceAll(artworkUrl, "{h}", "500")
+		final = append(final, &pb.Artist{
+			ArtistName:     proto.String(artist.Attributes.Name),
+			ArtistImageUrl: proto.String(artworkUrl),
+			ExternalAmId:   proto.String(artist.ID),
+		})
+	}
+
+	return final
 }
 
 func ConvertResultsToArtistResp(res []common.SearchResult) []*pb.Artist {
@@ -56,6 +74,7 @@ func ConvertResultsToArtistResp(res []common.SearchResult) []*pb.Artist {
 		final = append(final, &pb.Artist{
 			ArtistName:     proto.String(each.Title),
 			ArtistImageUrl: proto.String(each.Thumb),
+			ExternalDgId:   proto.Int32(int32(each.ID)),
 		})
 	}
 	return final

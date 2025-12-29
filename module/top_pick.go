@@ -9,13 +9,15 @@ import (
 )
 
 type TopPickArtist struct {
-	ArtistName string
-	DiscogsId  int32
+	ArtistName   string
+	DiscogsId    int32
+	AppleMusicId string
 }
 
 type TopPickSong struct {
-	SongName  string
-	DiscogsId int32
+	SongName     string
+	DiscogsId    int32
+	AppleMusicId string
 }
 
 func CreateUserAllTimeTopArtistsTx(ctx context.Context, userId int32, artists []*TopPickArtist) ([]*data.UserTopPick, error) {
@@ -30,12 +32,14 @@ func CreateUserAllTimeTopArtistsTx(ctx context.Context, userId int32, artists []
 				break
 			}
 			topPick := &data.UserTopPick{
-				UserID:            proto.Int32(userId),
-				Type:              proto.String("artist"),
-				DiscogsItemName:   proto.String(artist.ArtistName),
-				DiscogsExternalID: proto.Int32(artist.DiscogsId),
-				CreatedAt:         &now,
-				UpdatedAt:         &now,
+				UserID:               proto.Int32(userId),
+				Type:                 proto.String("artist"),
+				DiscogsItemName:      proto.String(artist.ArtistName),
+				DiscogsExternalID:    proto.Int32(artist.DiscogsId),
+				AppleMusicItemName:   proto.String(artist.ArtistName),
+				AppleMusicExternalID: proto.String(artist.AppleMusicId),
+				CreatedAt:            &now,
+				UpdatedAt:            &now,
 			}
 			if err := tx.Create(topPick).Error; err != nil {
 				return err // rollback transaction
@@ -63,12 +67,14 @@ func CreateUserAllTimeTopSongsTx(ctx context.Context, userId int32, songs []*Top
 				break
 			}
 			topPick := &data.UserTopPick{
-				UserID:            proto.Int32(userId),
-				Type:              proto.String("song"),
-				DiscogsItemName:   proto.String(song.SongName),
-				DiscogsExternalID: proto.Int32(song.DiscogsId),
-				CreatedAt:         &now,
-				UpdatedAt:         &now,
+				UserID:               proto.Int32(userId),
+				Type:                 proto.String("song"),
+				DiscogsItemName:      proto.String(song.SongName),
+				DiscogsExternalID:    proto.Int32(song.DiscogsId),
+				AppleMusicItemName:   proto.String(song.SongName),
+				AppleMusicExternalID: proto.String(song.AppleMusicId),
+				CreatedAt:            &now,
+				UpdatedAt:            &now,
 			}
 			if err := tx.Create(topPick).Error; err != nil {
 				return err // rollback transaction
