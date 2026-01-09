@@ -145,6 +145,7 @@ message GetHomepageResponse {
   repeated HomepageCard cards = 3;
 }
 
+
 message HomepageCard {
   optional SongSuggestionCard song_suggestion_card = 1;
   optional SongPollCard song_poll_card = 2;
@@ -172,4 +173,29 @@ message SongPollCardOption {
   optional string image_url = 3;
   optional int32 song_poll_card_option_id = 4;
   optional int32 song_poll_card_id = 5;
+}
+
+message GetTrendingChartsRequest {
+  optional RequestMeta request_meta = 1;
+}
+
+message GetTrendingChartsResponse {
+  optional int32 error = 1;
+  optional string error_message = 2;
+  repeated TopChartSong top_songs = 3;
+  repeated TopChartAlbum top_albums = 4;
+}
+
+message TopChartSong {
+  optional string song_name = 1;
+  optional string artist_name = 2;
+  optional string track_image_url = 3;
+  optional string external_am_id = 4;
+}
+
+message TopChartAlbum {
+  optional string album_name = 1;
+  optional string artist_name = 2;
+  optional string album_image_url = 3;
+  optional string external_am_id = 4;
 }

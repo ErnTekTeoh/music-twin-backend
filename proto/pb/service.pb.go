@@ -1778,6 +1778,266 @@ func (x *SongPollCardOption) GetSongPollCardId() int32 {
 	return 0
 }
 
+type GetTrendingChartsRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	RequestMeta *RequestMeta `protobuf:"bytes,1,opt,name=request_meta,json=requestMeta" json:"request_meta,omitempty"`
+}
+
+func (x *GetTrendingChartsRequest) Reset() {
+	*x = GetTrendingChartsRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_proto_service_proto_msgTypes[28]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetTrendingChartsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetTrendingChartsRequest) ProtoMessage() {}
+
+func (x *GetTrendingChartsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_service_proto_msgTypes[28]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetTrendingChartsRequest.ProtoReflect.Descriptor instead.
+func (*GetTrendingChartsRequest) Descriptor() ([]byte, []int) {
+	return file_proto_service_proto_rawDescGZIP(), []int{28}
+}
+
+func (x *GetTrendingChartsRequest) GetRequestMeta() *RequestMeta {
+	if x != nil {
+		return x.RequestMeta
+	}
+	return nil
+}
+
+type GetTrendingChartsResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Error        *int32           `protobuf:"varint,1,opt,name=error" json:"error,omitempty"`
+	ErrorMessage *string          `protobuf:"bytes,2,opt,name=error_message,json=errorMessage" json:"error_message,omitempty"`
+	TopSongs     []*TopChartSong  `protobuf:"bytes,3,rep,name=top_songs,json=topSongs" json:"top_songs,omitempty"`
+	TopAlbums    []*TopChartAlbum `protobuf:"bytes,4,rep,name=top_albums,json=topAlbums" json:"top_albums,omitempty"`
+}
+
+func (x *GetTrendingChartsResponse) Reset() {
+	*x = GetTrendingChartsResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_proto_service_proto_msgTypes[29]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetTrendingChartsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetTrendingChartsResponse) ProtoMessage() {}
+
+func (x *GetTrendingChartsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_service_proto_msgTypes[29]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetTrendingChartsResponse.ProtoReflect.Descriptor instead.
+func (*GetTrendingChartsResponse) Descriptor() ([]byte, []int) {
+	return file_proto_service_proto_rawDescGZIP(), []int{29}
+}
+
+func (x *GetTrendingChartsResponse) GetError() int32 {
+	if x != nil && x.Error != nil {
+		return *x.Error
+	}
+	return 0
+}
+
+func (x *GetTrendingChartsResponse) GetErrorMessage() string {
+	if x != nil && x.ErrorMessage != nil {
+		return *x.ErrorMessage
+	}
+	return ""
+}
+
+func (x *GetTrendingChartsResponse) GetTopSongs() []*TopChartSong {
+	if x != nil {
+		return x.TopSongs
+	}
+	return nil
+}
+
+func (x *GetTrendingChartsResponse) GetTopAlbums() []*TopChartAlbum {
+	if x != nil {
+		return x.TopAlbums
+	}
+	return nil
+}
+
+type TopChartSong struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	SongName      *string `protobuf:"bytes,1,opt,name=song_name,json=songName" json:"song_name,omitempty"`
+	ArtistName    *string `protobuf:"bytes,2,opt,name=artist_name,json=artistName" json:"artist_name,omitempty"`
+	TrackImageUrl *string `protobuf:"bytes,3,opt,name=track_image_url,json=trackImageUrl" json:"track_image_url,omitempty"`
+	ExternalAmId  *string `protobuf:"bytes,4,opt,name=external_am_id,json=externalAmId" json:"external_am_id,omitempty"`
+}
+
+func (x *TopChartSong) Reset() {
+	*x = TopChartSong{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_proto_service_proto_msgTypes[30]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *TopChartSong) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TopChartSong) ProtoMessage() {}
+
+func (x *TopChartSong) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_service_proto_msgTypes[30]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TopChartSong.ProtoReflect.Descriptor instead.
+func (*TopChartSong) Descriptor() ([]byte, []int) {
+	return file_proto_service_proto_rawDescGZIP(), []int{30}
+}
+
+func (x *TopChartSong) GetSongName() string {
+	if x != nil && x.SongName != nil {
+		return *x.SongName
+	}
+	return ""
+}
+
+func (x *TopChartSong) GetArtistName() string {
+	if x != nil && x.ArtistName != nil {
+		return *x.ArtistName
+	}
+	return ""
+}
+
+func (x *TopChartSong) GetTrackImageUrl() string {
+	if x != nil && x.TrackImageUrl != nil {
+		return *x.TrackImageUrl
+	}
+	return ""
+}
+
+func (x *TopChartSong) GetExternalAmId() string {
+	if x != nil && x.ExternalAmId != nil {
+		return *x.ExternalAmId
+	}
+	return ""
+}
+
+type TopChartAlbum struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	AlbumName     *string `protobuf:"bytes,1,opt,name=album_name,json=albumName" json:"album_name,omitempty"`
+	ArtistName    *string `protobuf:"bytes,2,opt,name=artist_name,json=artistName" json:"artist_name,omitempty"`
+	AlbumImageUrl *string `protobuf:"bytes,3,opt,name=album_image_url,json=albumImageUrl" json:"album_image_url,omitempty"`
+	ExternalAmId  *string `protobuf:"bytes,4,opt,name=external_am_id,json=externalAmId" json:"external_am_id,omitempty"`
+}
+
+func (x *TopChartAlbum) Reset() {
+	*x = TopChartAlbum{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_proto_service_proto_msgTypes[31]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *TopChartAlbum) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TopChartAlbum) ProtoMessage() {}
+
+func (x *TopChartAlbum) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_service_proto_msgTypes[31]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TopChartAlbum.ProtoReflect.Descriptor instead.
+func (*TopChartAlbum) Descriptor() ([]byte, []int) {
+	return file_proto_service_proto_rawDescGZIP(), []int{31}
+}
+
+func (x *TopChartAlbum) GetAlbumName() string {
+	if x != nil && x.AlbumName != nil {
+		return *x.AlbumName
+	}
+	return ""
+}
+
+func (x *TopChartAlbum) GetArtistName() string {
+	if x != nil && x.ArtistName != nil {
+		return *x.ArtistName
+	}
+	return ""
+}
+
+func (x *TopChartAlbum) GetAlbumImageUrl() string {
+	if x != nil && x.AlbumImageUrl != nil {
+		return *x.AlbumImageUrl
+	}
+	return ""
+}
+
+func (x *TopChartAlbum) GetExternalAmId() string {
+	if x != nil && x.ExternalAmId != nil {
+		return *x.ExternalAmId
+	}
+	return ""
+}
+
 var File_proto_service_proto protoreflect.FileDescriptor
 
 var file_proto_service_proto_rawDesc = []byte{
@@ -1996,8 +2256,44 @@ var file_proto_service_proto_rawDesc = []byte{
 	0x6f, 0x6e, 0x67, 0x50, 0x6f, 0x6c, 0x6c, 0x43, 0x61, 0x72, 0x64, 0x4f, 0x70, 0x74, 0x69, 0x6f,
 	0x6e, 0x49, 0x64, 0x12, 0x29, 0x0a, 0x11, 0x73, 0x6f, 0x6e, 0x67, 0x5f, 0x70, 0x6f, 0x6c, 0x6c,
 	0x5f, 0x63, 0x61, 0x72, 0x64, 0x5f, 0x69, 0x64, 0x18, 0x05, 0x20, 0x01, 0x28, 0x05, 0x52, 0x0e,
-	0x73, 0x6f, 0x6e, 0x67, 0x50, 0x6f, 0x6c, 0x6c, 0x43, 0x61, 0x72, 0x64, 0x49, 0x64, 0x42, 0x05,
-	0x5a, 0x03, 0x2f, 0x70, 0x62,
+	0x73, 0x6f, 0x6e, 0x67, 0x50, 0x6f, 0x6c, 0x6c, 0x43, 0x61, 0x72, 0x64, 0x49, 0x64, 0x22, 0x4b,
+	0x0a, 0x18, 0x47, 0x65, 0x74, 0x54, 0x72, 0x65, 0x6e, 0x64, 0x69, 0x6e, 0x67, 0x43, 0x68, 0x61,
+	0x72, 0x74, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x2f, 0x0a, 0x0c, 0x72, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x5f, 0x6d, 0x65, 0x74, 0x61, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b,
+	0x32, 0x0c, 0x2e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x4d, 0x65, 0x74, 0x61, 0x52, 0x0b,
+	0x72, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x4d, 0x65, 0x74, 0x61, 0x22, 0xb1, 0x01, 0x0a, 0x19,
+	0x47, 0x65, 0x74, 0x54, 0x72, 0x65, 0x6e, 0x64, 0x69, 0x6e, 0x67, 0x43, 0x68, 0x61, 0x72, 0x74,
+	0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x14, 0x0a, 0x05, 0x65, 0x72, 0x72,
+	0x6f, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x05, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x12,
+	0x23, 0x0a, 0x0d, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x5f, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65,
+	0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0c, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x4d, 0x65, 0x73,
+	0x73, 0x61, 0x67, 0x65, 0x12, 0x2a, 0x0a, 0x09, 0x74, 0x6f, 0x70, 0x5f, 0x73, 0x6f, 0x6e, 0x67,
+	0x73, 0x18, 0x03, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x0d, 0x2e, 0x54, 0x6f, 0x70, 0x43, 0x68, 0x61,
+	0x72, 0x74, 0x53, 0x6f, 0x6e, 0x67, 0x52, 0x08, 0x74, 0x6f, 0x70, 0x53, 0x6f, 0x6e, 0x67, 0x73,
+	0x12, 0x2d, 0x0a, 0x0a, 0x74, 0x6f, 0x70, 0x5f, 0x61, 0x6c, 0x62, 0x75, 0x6d, 0x73, 0x18, 0x04,
+	0x20, 0x03, 0x28, 0x0b, 0x32, 0x0e, 0x2e, 0x54, 0x6f, 0x70, 0x43, 0x68, 0x61, 0x72, 0x74, 0x41,
+	0x6c, 0x62, 0x75, 0x6d, 0x52, 0x09, 0x74, 0x6f, 0x70, 0x41, 0x6c, 0x62, 0x75, 0x6d, 0x73, 0x22,
+	0x9a, 0x01, 0x0a, 0x0c, 0x54, 0x6f, 0x70, 0x43, 0x68, 0x61, 0x72, 0x74, 0x53, 0x6f, 0x6e, 0x67,
+	0x12, 0x1b, 0x0a, 0x09, 0x73, 0x6f, 0x6e, 0x67, 0x5f, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x08, 0x73, 0x6f, 0x6e, 0x67, 0x4e, 0x61, 0x6d, 0x65, 0x12, 0x1f, 0x0a,
+	0x0b, 0x61, 0x72, 0x74, 0x69, 0x73, 0x74, 0x5f, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x02, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x0a, 0x61, 0x72, 0x74, 0x69, 0x73, 0x74, 0x4e, 0x61, 0x6d, 0x65, 0x12, 0x26,
+	0x0a, 0x0f, 0x74, 0x72, 0x61, 0x63, 0x6b, 0x5f, 0x69, 0x6d, 0x61, 0x67, 0x65, 0x5f, 0x75, 0x72,
+	0x6c, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0d, 0x74, 0x72, 0x61, 0x63, 0x6b, 0x49, 0x6d,
+	0x61, 0x67, 0x65, 0x55, 0x72, 0x6c, 0x12, 0x24, 0x0a, 0x0e, 0x65, 0x78, 0x74, 0x65, 0x72, 0x6e,
+	0x61, 0x6c, 0x5f, 0x61, 0x6d, 0x5f, 0x69, 0x64, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0c,
+	0x65, 0x78, 0x74, 0x65, 0x72, 0x6e, 0x61, 0x6c, 0x41, 0x6d, 0x49, 0x64, 0x22, 0x9d, 0x01, 0x0a,
+	0x0d, 0x54, 0x6f, 0x70, 0x43, 0x68, 0x61, 0x72, 0x74, 0x41, 0x6c, 0x62, 0x75, 0x6d, 0x12, 0x1d,
+	0x0a, 0x0a, 0x61, 0x6c, 0x62, 0x75, 0x6d, 0x5f, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x09, 0x61, 0x6c, 0x62, 0x75, 0x6d, 0x4e, 0x61, 0x6d, 0x65, 0x12, 0x1f, 0x0a,
+	0x0b, 0x61, 0x72, 0x74, 0x69, 0x73, 0x74, 0x5f, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x02, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x0a, 0x61, 0x72, 0x74, 0x69, 0x73, 0x74, 0x4e, 0x61, 0x6d, 0x65, 0x12, 0x26,
+	0x0a, 0x0f, 0x61, 0x6c, 0x62, 0x75, 0x6d, 0x5f, 0x69, 0x6d, 0x61, 0x67, 0x65, 0x5f, 0x75, 0x72,
+	0x6c, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0d, 0x61, 0x6c, 0x62, 0x75, 0x6d, 0x49, 0x6d,
+	0x61, 0x67, 0x65, 0x55, 0x72, 0x6c, 0x12, 0x24, 0x0a, 0x0e, 0x65, 0x78, 0x74, 0x65, 0x72, 0x6e,
+	0x61, 0x6c, 0x5f, 0x61, 0x6d, 0x5f, 0x69, 0x64, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0c,
+	0x65, 0x78, 0x74, 0x65, 0x72, 0x6e, 0x61, 0x6c, 0x41, 0x6d, 0x49, 0x64, 0x42, 0x05, 0x5a, 0x03,
+	0x2f, 0x70, 0x62,
 }
 
 var (
@@ -2013,7 +2309,7 @@ func file_proto_service_proto_rawDescGZIP() []byte {
 }
 
 var file_proto_service_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_proto_service_proto_msgTypes = make([]protoimpl.MessageInfo, 28)
+var file_proto_service_proto_msgTypes = make([]protoimpl.MessageInfo, 32)
 var file_proto_service_proto_goTypes = []interface{}{
 	(Constant_ErrorCode)(0),           // 0: Constant.ErrorCode
 	(*Constant)(nil),                  // 1: Constant
@@ -2044,6 +2340,10 @@ var file_proto_service_proto_goTypes = []interface{}{
 	(*SongSuggestionCard)(nil),        // 26: SongSuggestionCard
 	(*SongPollCard)(nil),              // 27: SongPollCard
 	(*SongPollCardOption)(nil),        // 28: SongPollCardOption
+	(*GetTrendingChartsRequest)(nil),  // 29: GetTrendingChartsRequest
+	(*GetTrendingChartsResponse)(nil), // 30: GetTrendingChartsResponse
+	(*TopChartSong)(nil),              // 31: TopChartSong
+	(*TopChartAlbum)(nil),             // 32: TopChartAlbum
 }
 var file_proto_service_proto_depIdxs = []int32{
 	2,  // 0: RegisterUserRequest.request_meta:type_name -> RequestMeta
@@ -2062,11 +2362,14 @@ var file_proto_service_proto_depIdxs = []int32{
 	26, // 13: HomepageCard.song_suggestion_card:type_name -> SongSuggestionCard
 	27, // 14: HomepageCard.song_poll_card:type_name -> SongPollCard
 	28, // 15: SongPollCard.options:type_name -> SongPollCardOption
-	16, // [16:16] is the sub-list for method output_type
-	16, // [16:16] is the sub-list for method input_type
-	16, // [16:16] is the sub-list for extension type_name
-	16, // [16:16] is the sub-list for extension extendee
-	0,  // [0:16] is the sub-list for field type_name
+	2,  // 16: GetTrendingChartsRequest.request_meta:type_name -> RequestMeta
+	31, // 17: GetTrendingChartsResponse.top_songs:type_name -> TopChartSong
+	32, // 18: GetTrendingChartsResponse.top_albums:type_name -> TopChartAlbum
+	19, // [19:19] is the sub-list for method output_type
+	19, // [19:19] is the sub-list for method input_type
+	19, // [19:19] is the sub-list for extension type_name
+	19, // [19:19] is the sub-list for extension extendee
+	0,  // [0:19] is the sub-list for field type_name
 }
 
 func init() { file_proto_service_proto_init() }
@@ -2411,6 +2714,54 @@ func file_proto_service_proto_init() {
 				return nil
 			}
 		}
+		file_proto_service_proto_msgTypes[28].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetTrendingChartsRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_proto_service_proto_msgTypes[29].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetTrendingChartsResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_proto_service_proto_msgTypes[30].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*TopChartSong); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_proto_service_proto_msgTypes[31].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*TopChartAlbum); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -2418,7 +2769,7 @@ func file_proto_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_proto_service_proto_rawDesc,
 			NumEnums:      1,
-			NumMessages:   28,
+			NumMessages:   32,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

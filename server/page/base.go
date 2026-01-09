@@ -18,4 +18,9 @@ func InitPageEndpoints(r *mux.Router) {
 		Response:  &pb.GetHomepageResponse{},
 	}))
 
+	r.HandleFunc(PageEndpointPrefix+GetTrendingChartsUrlSuffix, middleware.HttpProcessorWrapper(middleware.HttpProcessor{
+		Processor: GetTrendingCharts,
+		Request:   &pb.GetTrendingChartsRequest{},
+		Response:  &pb.GetTrendingChartsResponse{},
+	}))
 }

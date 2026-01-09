@@ -7,7 +7,7 @@ import (
 	"time"
 )
 
-func CallHTTPEndpointWithHeaders(url, method string, headers map[string]string, data []byte) ([]byte, error) {
+func CallHTTPEndpointWithHeaders(url, method string, data []byte) ([]byte, error) {
 	client := &http.Client{Timeout: 10 * time.Second}
 	var req *http.Request
 	var err error
@@ -22,6 +22,9 @@ func CallHTTPEndpointWithHeaders(url, method string, headers map[string]string, 
 		return nil, err
 	}
 
+	headers := map[string]string{
+		"Authorization": "Bearer eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkY0QTI4NTQ5UVMifQ.eyJpYXQiOjE3NjU3MTM1NTcsImV4cCI6MTc4MTI2NTU1NywiaXNzIjoiRks1R01VS1kzSyJ9.FmFl-cAOiwWfS2JY4iMUBOu7fVK8920Z65DBvtkjW4Tcil2Dk-Aq7OjkJWtbiBS09CJDH257fuvVTBU3h5XY9g",
+	}
 	// Add custom headers
 	for key, value := range headers {
 		req.Header.Set(key, value)

@@ -27,11 +27,8 @@ func TestCallHTTPEndpointWithAuth(t *testing.T) {
 
 func TestCall(t *testing.T) {
 	url := "https://api.discogs.com/database/search?artist=babymonster&title=drip"
-	headers := map[string]string{
-		"Authorization": "Discogs key=siwseMRvWtdyUGJKuDEv, secret=ODUDvwoAzbbCiyTswyGheMiKqMObxAQU",
-		"Cookie":        "__cf_bm=s69EMZXPidl15QC99p0cFDBiH_.YYkMqbPUjF.Q5UHs-1765091907-1.0.1.1-qe6mv36rfxLU2RVyt_MDY6xpj1Wo6Ob.hL3FKJ84C2DVB3b08aUfZcFQSFBntpI1_S8CAEMoK9bgHBK.TkFRSSS4luepMaLW2mtWGT9KuQA",
-	}
-	resp, err := CallHTTPEndpointWithHeaders(url, "GET", headers, nil)
+
+	resp, err := CallHTTPEndpointWithHeaders(url, "GET", nil)
 	fmt.Println(resp)
 	fmt.Println(err)
 }
