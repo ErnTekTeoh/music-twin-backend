@@ -5,22 +5,11 @@ import (
 	"google.golang.org/protobuf/proto"
 	"gorm.io/gorm"
 	"music-twin-backend/data"
+	"music-twin-backend/proto/pb"
 	"time"
 )
 
-type TopPickArtist struct {
-	ArtistName   string
-	DiscogsId    int32
-	AppleMusicId string
-}
-
-type TopPickSong struct {
-	SongName     string
-	DiscogsId    int32
-	AppleMusicId string
-}
-
-func CreateUserAllTimeTopArtistsTx(ctx context.Context, userId int32, artists []*TopPickArtist) ([]*data.UserTopPick, error) {
+func CreateUserAllTimeTopArtistsTx(ctx context.Context, userId int32, artists []*pb.LikedArtist) ([]*data.UserTopPick, error) {
 	loc, _ := time.LoadLocation("Asia/Kuala_Lumpur")
 	now := time.Now().In(loc)
 
@@ -32,14 +21,13 @@ func CreateUserAllTimeTopArtistsTx(ctx context.Context, userId int32, artists []
 				break
 			}
 			topPick := &data.UserTopPick{
-				UserID:               proto.Int32(userId),
-				Type:                 proto.String("artist"),
-				DiscogsItemName:      proto.String(artist.ArtistName),
-				DiscogsExternalID:    proto.Int32(artist.DiscogsId),
-				AppleMusicItemName:   proto.String(artist.ArtistName),
-				AppleMusicExternalID: proto.String(artist.AppleMusicId),
-				CreatedAt:            &now,
-				UpdatedAt:            &now,
+				UserID:                   proto.Int32(userId),
+				Type:                     proto.String("artist"),
+				AppleMusicArtistImageUrl: artist.ArtistImageUrl,
+				AppleMusicArtistName:     artist.ArtistName,
+				AppleMusicExternalID:     artist.ExternalAmId,
+				CreatedAt:                &now,
+				UpdatedAt:                &now,
 			}
 			if err := tx.Create(topPick).Error; err != nil {
 				return err // rollback transaction
@@ -55,7 +43,7 @@ func CreateUserAllTimeTopArtistsTx(ctx context.Context, userId int32, artists []
 	return picks, nil
 }
 
-func CreateUserAllTimeTopSongsTx(ctx context.Context, userId int32, songs []*TopPickSong) ([]*data.UserTopPick, error) {
+func CreateUserAllTimeTopSongsTx(ctx context.Context, userId int32, songs []*pb.LikedSong) ([]*data.UserTopPick, error) {
 	loc, _ := time.LoadLocation("Asia/Kuala_Lumpur")
 	now := time.Now().In(loc)
 
@@ -67,14 +55,14 @@ func CreateUserAllTimeTopSongsTx(ctx context.Context, userId int32, songs []*Top
 				break
 			}
 			topPick := &data.UserTopPick{
-				UserID:               proto.Int32(userId),
-				Type:                 proto.String("song"),
-				DiscogsItemName:      proto.String(song.SongName),
-				DiscogsExternalID:    proto.Int32(song.DiscogsId),
-				AppleMusicItemName:   proto.String(song.SongName),
-				AppleMusicExternalID: proto.String(song.AppleMusicId),
-				CreatedAt:            &now,
-				UpdatedAt:            &now,
+				UserID:                 proto.Int32(userId),
+				Type:                   proto.String("song"),
+				AppleMusicArtistName:   song.ArtistName,
+				AppleMusicExternalID:   song.ExternalAmId,
+				AppleMusicSongName:     song.SongName,
+				AppleMusicSongImageUrl: song.SongImageUrl,
+				CreatedAt:              &now,
+				UpdatedAt:              &now,
 			}
 			if err := tx.Create(topPick).Error; err != nil {
 				return err // rollback transaction
@@ -88,6 +76,23 @@ func CreateUserAllTimeTopSongsTx(ctx context.Context, userId int32, songs []*Top
 		return nil, err
 	}
 	return picks, nil
+}
+
+func GetUserTopPicks(ctx context.Context, userId int32) (topSongs []*data.UserTopPick, topArtists []*data.UserTopPick) {
+	allData, err := data.GetUserTopPicks(ctx, userId)
+	artists := make([]*data.UserTopPick, 0)
+	songs := make([]*data.UserTopPick, 0)
+	if err != nil {
+		return songs, artists
+	}
+	for _, each := range allData {
+		if each.IsSong() {
+			songs = append(songs, each)
+		} else if each.IsArtist() {
+			artists = append(artists, each)
+		}
+	}
+	return songs, artists
 }
 
 //

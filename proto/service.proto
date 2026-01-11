@@ -64,7 +64,8 @@ message SearchTrackRequest {
 message SearchTrackResponse {
   optional int32 error = 1;
   optional string error_message = 2;
-  repeated Track results = 3;
+  // must be same struct as Add liked song endpoint
+  repeated LikedSong results = 3;
 }
 
 message Track {
@@ -89,7 +90,8 @@ message SearchArtistRequest {
 message SearchArtistResponse {
   optional int32 error = 1;
   optional string error_message = 2;
-  repeated Artist results = 3;
+  // must be same struct as Add liked artist endpoint
+  repeated LikedArtist results = 3;
 }
 
 message UpdateDisplayNameRequest {
@@ -113,23 +115,38 @@ message TopSongs {
   optional int32 external_dg_id = 2;
 }
 
-message AddTopArtistsRequest {
-  optional RequestMeta request_meta = 1;
-  repeated Artist top_artists = 2;
+// must be used for search for liked artist + add liked artist
+message LikedArtist {
+  optional string artist_name = 1;
+  optional string external_am_id = 2;
+  optional string artist_image_url = 3;
 }
 
-message AddTopArtistsResponse {
+// must be used for search for liked songs + add liked songs
+message LikedSong {
+  optional string song_name = 1;
+  optional string artist_name = 2;
+  optional string external_am_id = 3;
+  optional string song_image_url = 4;
+}
+
+message AddLikedArtistsRequest {
+  optional RequestMeta request_meta = 1;
+  repeated LikedArtist liked_artists = 2;
+}
+
+message AddLikedArtistsResponse {
   optional int32 error = 1;
   optional string error_message = 2;
   optional bool is_successful = 3;
 }
 
-message AddTopSongsRequest {
+message AddLikedSongsRequest {
   optional RequestMeta request_meta = 1;
-  repeated Track top_songs = 2;
+  repeated LikedSong liked_songs = 2;
 }
 
-message AddTopSongsResponse {
+message AddLikedSongsResponse {
   optional int32 error = 1;
   optional string error_message = 2;
   optional bool is_successful = 3;
@@ -198,4 +215,65 @@ message TopChartAlbum {
   optional string artist_name = 2;
   optional string album_image_url = 3;
   optional string external_am_id = 4;
+}
+
+message UpdateMySocialsRequest {
+  optional RequestMeta request_meta = 1;
+  optional string input = 2;
+  optional string social_to_update = 3;
+}
+
+message UpdateMySocialsResponse {
+  optional int32 error = 1;
+  optional string error_message = 2;
+  optional bool is_successful = 3;
+}
+
+message GetMySocialsRequest {
+  optional RequestMeta request_meta = 1;
+}
+
+message GetMySocialsResponse {
+  optional int32 error = 1;
+  optional string error_message = 2;
+  optional string instagram = 3;
+  optional string email = 4;
+  optional string telegram = 5;
+  optional string whatsapp = 6;
+}
+
+message GetUserProfileRequest {
+  optional RequestMeta request_meta = 1;
+}
+
+message GetUserProfileResponse {
+  optional int32 error = 1;
+  optional string error_message = 2;
+  optional UserDetails user_details = 3;
+repeated LikedSong liked_songs = 4;
+repeated LikedArtist liked_artists = 5;
+optional MySocials my_socials = 6;
+
+}
+
+message UserDetails {
+  optional string display_name = 1;
+  optional string profile_image_url = 2;
+}
+
+message MySocials {
+  optional string telegram = 1;
+  optional string whatsapp = 2;
+  optional string instagram = 3;
+  optional string email = 4;
+}
+
+message GetLikedSongsRequest {
+  optional RequestMeta request_meta = 1;
+}
+
+message GetLikedSongsResponse {
+  optional int32 error = 1;
+  optional string error_message = 2;
+  repeated LikedSong liked_songs = 3;
 }

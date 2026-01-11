@@ -8,26 +8,26 @@ import (
 )
 
 const (
-	AddTopArtistsUrlSuffix = "/add_top_artists"
+	AddLikedArtistsUrlSuffix = "/add_liked_artists"
 )
 
-func AddTopArtists(ctx context.Context, request, response interface{}) (errorCode int32) {
-	requestTyped, ok := request.(*pb.AddTopArtistsRequest)
+func AddLikedArtists(ctx context.Context, request, response interface{}) (errorCode int32) {
+	requestTyped, ok := request.(*pb.AddLikedArtistsRequest)
 	if !ok {
 		return int32(pb.Constant_ERROR_CODE_INVALID_REQUEST_TYPE)
 	}
 
-	responseTyped, ok := response.(*pb.AddTopArtistsResponse)
+	responseTyped, ok := response.(*pb.AddLikedArtistsResponse)
 	if !ok {
 		return int32(pb.Constant_ERROR_CODE_INVALID_RESPONSE_TYPE)
 	}
 
-	return AddTopArtistsFlow(ctx, requestTyped, responseTyped)
+	return AddLikedArtistsFlow(ctx, requestTyped, responseTyped)
 }
 
-func AddTopArtistsFlow(ctx context.Context, request *pb.AddTopArtistsRequest, response *pb.AddTopArtistsResponse) (errorCode int32) {
+func AddLikedArtistsFlow(ctx context.Context, request *pb.AddLikedArtistsRequest, response *pb.AddLikedArtistsResponse) (errorCode int32) {
 	userId := request.GetRequestMeta().GetUserId()
-	topArtists := request.GetTopArtists() // assumed []*pb.Artist
+	topArtists := request.GetLikedArtists() // assumed []*pb.Artist
 
 	if userId == 0 || len(topArtists) == 0 {
 		response.Error = proto.Int32(int32(pb.Constant_ERROR_CODE_INVALID_REQUEST_PARAM))
@@ -35,18 +35,8 @@ func AddTopArtistsFlow(ctx context.Context, request *pb.AddTopArtistsRequest, re
 		return int32(pb.Constant_ERROR_CODE_INVALID_REQUEST_PARAM)
 	}
 
-	// Map protobuf artists to internal struct
-	var artistList []*module.TopPickArtist
-	for _, a := range topArtists {
-		artistList = append(artistList, &module.TopPickArtist{
-			ArtistName:   a.GetArtistName(),
-			DiscogsId:    a.GetExternalDgId(),
-			AppleMusicId: a.GetExternalAmId(),
-		})
-	}
-
 	// db is your *gorm.DB, you may need to inject it
-	_, err := module.CreateUserAllTimeTopArtistsTx(ctx, userId, artistList)
+	_, err := module.CreateUserAllTimeTopArtistsTx(ctx, userId, topArtists)
 	if err != nil {
 		response.Error = proto.Int32(int32(pb.Constant_ERROR_CODE_BUSINESS_ERROR))
 		response.ErrorMessage = proto.String("Failed to update top artists, please try again later.")

@@ -12,16 +12,16 @@ const (
 
 func InitTopPicksEndpoints(r *mux.Router) {
 	// search song based on title + artist + genre
-	r.HandleFunc(TopPickEndpointPrefix+AddTopArtistsUrlSuffix, middleware.HttpProcessorWrapper(middleware.HttpProcessor{
-		Processor: AddTopArtists,
-		Request:   &pb.AddTopArtistsRequest{},
-		Response:  &pb.AddTopArtistsResponse{},
+	r.HandleFunc(TopPickEndpointPrefix+AddLikedArtistsUrlSuffix, middleware.HttpProcessorWrapper(middleware.HttpProcessor{
+		Processor: AddLikedArtists,
+		Request:   &pb.AddLikedArtistsRequest{},
+		Response:  &pb.AddLikedArtistsResponse{},
 	}))
 	// search artist
-	r.HandleFunc(TopPickEndpointPrefix+AddTopSongsUrlSuffix, middleware.HttpProcessorWrapper(middleware.HttpProcessor{
-		Processor: AddTopSongs,
-		Request:   &pb.AddTopSongsRequest{},
-		Response:  &pb.AddTopSongsResponse{},
+	r.HandleFunc(TopPickEndpointPrefix+AddLikedSongsUrlSuffix, middleware.HttpProcessorWrapper(middleware.HttpProcessor{
+		Processor: AddLikedSongs,
+		Request:   &pb.AddLikedSongsRequest{},
+		Response:  &pb.AddLikedSongsResponse{},
 	}))
 
 }

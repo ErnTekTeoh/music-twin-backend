@@ -32,21 +32,18 @@ CREATE TABLE users
 );
 
 CREATE TABLE user_top_picks (
-    user_top_pick_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    user_top_pick_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
     type ENUM('artist', 'song'),
-    period_type ENUM('all_time', 'week', 'month'),
-    year INT,
-    week INT,
-    month INT,
     ranking INT,
-    item_id INT,
-    discogs_item_name VARCHAR(128),
-    discogs_external_id VARCHAR(128),
-    apple_music_item_name VARCHAR(128),
+    apple_music_artist_image_url VARCHAR(512),
+    apple_music_artist_name VARCHAR(128),
     apple_music_external_id VARCHAR(128),
+    apple_music_song_name VARCHAR(128),
+    apple_music_song_image_url VARCHAR(512),
     created_at DATETIME,
     updated_at DATETIME,
+    deleted_at DATETIME,
     INDEX(user_id)
 );
 
@@ -82,3 +79,10 @@ CREATE TABLE song_poll_card_options (
     updated_at DATETIME,
     FOREIGN KEY (song_poll_card_id) REFERENCES song_poll_cards(song_poll_card_id)
 );
+
+ALTER TABLE users ADD COLUMN instagram_handle varchar(100);
+ALTER TABLE users ADD COLUMN whatsapp_handle varchar(100);
+ALTER TABLE users ADD COLUMN telegram_handle varchar(100);
+ALTER TABLE users ADD COLUMN alternate_email varchar(256);
+
+ALTER TABLE user_top_picks ADD COLUMN image_url varchar(512);

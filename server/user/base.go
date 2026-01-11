@@ -39,4 +39,21 @@ func InitUserEndpoints(r *mux.Router) {
 		Response:  &pb.UpdateDisplayNameResponse{},
 	}))
 
+	r.HandleFunc(UserEndpointPrefix+UpdateMySocialsSuffix, middleware.HttpProcessorWrapper(middleware.HttpProcessor{
+		Processor: UpdateMySocials,
+		Request:   &pb.UpdateMySocialsRequest{},
+		Response:  &pb.UpdateMySocialsResponse{},
+	}))
+
+	r.HandleFunc(UserEndpointPrefix+GetMySocialsSuffix, middleware.HttpProcessorWrapper(middleware.HttpProcessor{
+		Processor: GetMySocials,
+		Request:   &pb.GetMySocialsRequest{},
+		Response:  &pb.GetMySocialsResponse{},
+	}))
+
+	r.HandleFunc(UserEndpointPrefix+GetUserProfileSuffix, middleware.HttpProcessorWrapper(middleware.HttpProcessor{
+		Processor: GetUserProfile,
+		Request:   &pb.GetUserProfileRequest{},
+		Response:  &pb.GetUserProfileResponse{},
+	}))
 }

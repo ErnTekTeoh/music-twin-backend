@@ -51,31 +51,20 @@ func SearchTrackFlow(ctx context.Context, request *pb.SearchTrackRequest, respon
 
 	return int32(pb.Constant_ERROR_CODE_SUCCESS)
 }
-func ConvertAppleMusicResultsToResp(res *common.AppleMusicSearchResponse) []*pb.Track {
-	final := make([]*pb.Track, 0)
+func ConvertAppleMusicResultsToResp(res *common.AppleMusicSearchResponse) []*pb.LikedSong {
+	final := make([]*pb.LikedSong, 0)
 
 	for _, song := range res.Results.Songs.Data {
 		artworkUrl := song.Attributes.Artwork.Url
 		artworkUrl = strings.ReplaceAll(artworkUrl, "{w}", "500")
 		artworkUrl = strings.ReplaceAll(artworkUrl, "{h}", "500")
-		final = append(final, &pb.Track{
-			SongName:      proto.String(song.Attributes.ArtistName + " - " + song.Attributes.Name),
-			TrackImageUrl: proto.String(artworkUrl),
-			ExternalAmId:  proto.String(song.ID),
+		final = append(final, &pb.LikedSong{
+			SongName:     proto.String(song.Attributes.Name),
+			ArtistName:   proto.String(song.Attributes.ArtistName),
+			ExternalAmId: proto.String(song.ID),
+			SongImageUrl: proto.String(artworkUrl),
 		})
 	}
 
-	return final
-}
-
-func ConvertResultsToResp(res []common.SearchResult) []*pb.Track {
-	final := make([]*pb.Track, 0)
-	for _, each := range res {
-		final = append(final, &pb.Track{
-			SongName:      proto.String(each.Title),
-			TrackImageUrl: proto.String(each.Thumb),
-			ExternalDgId:  proto.Int32(int32(each.ID)),
-		})
-	}
 	return final
 }

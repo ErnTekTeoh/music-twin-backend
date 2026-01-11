@@ -51,31 +51,19 @@ func SearchArtistFlow(ctx context.Context, request *pb.SearchArtistRequest, resp
 	return int32(pb.Constant_ERROR_CODE_SUCCESS)
 }
 
-func ConvertAppleMusicArtistResultsToResp(res *common.AppleMusicSearchResponse) []*pb.Artist {
-	final := make([]*pb.Artist, 0)
+func ConvertAppleMusicArtistResultsToResp(res *common.AppleMusicSearchResponse) []*pb.LikedArtist {
+	final := make([]*pb.LikedArtist, 0)
 
 	for _, artist := range res.Results.Artists.Data {
 		artworkUrl := artist.Attributes.Artwork.Url
 		artworkUrl = strings.ReplaceAll(artworkUrl, "{w}", "500")
 		artworkUrl = strings.ReplaceAll(artworkUrl, "{h}", "500")
-		final = append(final, &pb.Artist{
+		final = append(final, &pb.LikedArtist{
 			ArtistName:     proto.String(artist.Attributes.Name),
 			ArtistImageUrl: proto.String(artworkUrl),
 			ExternalAmId:   proto.String(artist.ID),
 		})
 	}
 
-	return final
-}
-
-func ConvertResultsToArtistResp(res []common.SearchResult) []*pb.Artist {
-	final := make([]*pb.Artist, 0)
-	for _, each := range res {
-		final = append(final, &pb.Artist{
-			ArtistName:     proto.String(each.Title),
-			ArtistImageUrl: proto.String(each.Thumb),
-			ExternalDgId:   proto.Int32(int32(each.ID)),
-		})
-	}
 	return final
 }

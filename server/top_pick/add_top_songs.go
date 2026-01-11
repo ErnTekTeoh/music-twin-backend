@@ -8,26 +8,26 @@ import (
 )
 
 const (
-	AddTopSongsUrlSuffix = "/add_top_songs"
+	AddLikedSongsUrlSuffix = "/add_liked_songs"
 )
 
-func AddTopSongs(ctx context.Context, request, response interface{}) (errorCode int32) {
-	requestTyped, ok := request.(*pb.AddTopSongsRequest)
+func AddLikedSongs(ctx context.Context, request, response interface{}) (errorCode int32) {
+	requestTyped, ok := request.(*pb.AddLikedSongsRequest)
 	if !ok {
 		return int32(pb.Constant_ERROR_CODE_INVALID_REQUEST_TYPE)
 	}
 
-	responseTyped, ok := response.(*pb.AddTopSongsResponse)
+	responseTyped, ok := response.(*pb.AddLikedSongsResponse)
 	if !ok {
 		return int32(pb.Constant_ERROR_CODE_INVALID_RESPONSE_TYPE)
 	}
 
-	return AddTopSongsFlow(ctx, requestTyped, responseTyped)
+	return AddLikedSongsFlow(ctx, requestTyped, responseTyped)
 }
 
-func AddTopSongsFlow(ctx context.Context, request *pb.AddTopSongsRequest, response *pb.AddTopSongsResponse) (errorCode int32) {
+func AddLikedSongsFlow(ctx context.Context, request *pb.AddLikedSongsRequest, response *pb.AddLikedSongsResponse) (errorCode int32) {
 	userId := request.GetRequestMeta().GetUserId()
-	topSongs := request.GetTopSongs() // assumed []*pb.Artist
+	topSongs := request.GetLikedSongs() // assumed []*pb.LikedArtis
 
 	if userId == 0 || len(topSongs) == 0 {
 		response.Error = proto.Int32(int32(pb.Constant_ERROR_CODE_INVALID_REQUEST_PARAM))
@@ -35,18 +35,8 @@ func AddTopSongsFlow(ctx context.Context, request *pb.AddTopSongsRequest, respon
 		return int32(pb.Constant_ERROR_CODE_INVALID_REQUEST_PARAM)
 	}
 
-	// Map protobuf artists to internal struct
-	var songList []*module.TopPickSong
-	for _, a := range topSongs {
-		songList = append(songList, &module.TopPickSong{
-			SongName:     a.GetSongName(),
-			DiscogsId:    a.GetExternalDgId(),
-			AppleMusicId: a.GetExternalAmId(),
-		})
-	}
-
 	// db is your *gorm.DB, you may need to inject it
-	_, err := module.CreateUserAllTimeTopSongsTx(ctx, userId, songList)
+	_, err := module.CreateUserAllTimeTopSongsTx(ctx, userId, topSongs)
 	if err != nil {
 		response.Error = proto.Int32(int32(pb.Constant_ERROR_CODE_BUSINESS_ERROR))
 		response.ErrorMessage = proto.String("Failed to update top artists, please try again later.")
