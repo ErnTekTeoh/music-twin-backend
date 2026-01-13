@@ -128,6 +128,7 @@ message LikedSong {
   optional string artist_name = 2;
   optional string external_am_id = 3;
   optional string song_image_url = 4;
+  optional bool is_liked = 5;
 }
 
 message AddLikedArtistsRequest {
@@ -199,16 +200,10 @@ message GetTrendingChartsRequest {
 message GetTrendingChartsResponse {
   optional int32 error = 1;
   optional string error_message = 2;
-  repeated TopChartSong top_songs = 3;
+  repeated LikedSong top_songs = 3;
   repeated TopChartAlbum top_albums = 4;
 }
 
-message TopChartSong {
-  optional string song_name = 1;
-  optional string artist_name = 2;
-  optional string track_image_url = 3;
-  optional string external_am_id = 4;
-}
 
 message TopChartAlbum {
   optional string album_name = 1;
@@ -276,4 +271,15 @@ message GetLikedSongsResponse {
   optional int32 error = 1;
   optional string error_message = 2;
   repeated LikedSong liked_songs = 3;
+}
+
+message ToggleLikedSongRequest {
+  optional RequestMeta request_meta = 1;
+  optional LikedSong liked_song = 2;
+}
+
+message ToggleLikedSongResponse {
+  optional int32 error = 1;
+  optional string error_message = 2;
+  optional bool is_successful = 3;
 }

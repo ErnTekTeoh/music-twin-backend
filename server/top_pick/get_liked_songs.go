@@ -36,11 +36,19 @@ func GetLikedSongsFlow(ctx context.Context, request *pb.GetLikedSongsRequest, re
 	}
 
 	topSongs, _ := module.GetUserTopPicks(ctx, userId)
+	likedSongs := data.ToLikedSongs(topSongs)
+
+	likedMap := module.GetUserLikedSongsMap(ctx, userId)
+
+	for _, eachSong := range likedSongs {
+		eachSong.IsLiked = proto.Bool(false)
+		if liked, _ := likedMap[eachSong.GetExternalAmId()]; liked {
+			eachSong.IsLiked = proto.Bool(true)
+		}
+	}
 
 	response.Error = proto.Int32(int32(pb.Constant_ERROR_CODE_SUCCESS))
 	response.ErrorMessage = proto.String("success")
-
-	response.LikedSongs = data.ToLikedSongs(topSongs)
-
+	response.LikedSongs = likedSongs
 	return int32(pb.Constant_ERROR_CODE_SUCCESS)
 }

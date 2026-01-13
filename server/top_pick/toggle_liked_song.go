@@ -8,38 +8,43 @@ import (
 )
 
 const (
-	AddLikedSongsUrlSuffix = "/add_liked_songs"
+	ToggleLikedSongUrlSuffix = "/toggle_liked_song"
 )
 
-func AddLikedSongs(ctx context.Context, request, response interface{}) (errorCode int32) {
-	requestTyped, ok := request.(*pb.AddLikedSongsRequest)
+func ToggleLikedSong(ctx context.Context, request, response interface{}) (errorCode int32) {
+	requestTyped, ok := request.(*pb.ToggleLikedSongRequest)
 	if !ok {
 		return int32(pb.Constant_ERROR_CODE_INVALID_REQUEST_TYPE)
 	}
 
-	responseTyped, ok := response.(*pb.AddLikedSongsResponse)
+	responseTyped, ok := response.(*pb.ToggleLikedSongResponse)
 	if !ok {
 		return int32(pb.Constant_ERROR_CODE_INVALID_RESPONSE_TYPE)
 	}
 
-	return AddLikedSongsFlow(ctx, requestTyped, responseTyped)
+	return ToggleLikedSongFlow(ctx, requestTyped, responseTyped)
 }
 
-func AddLikedSongsFlow(ctx context.Context, request *pb.AddLikedSongsRequest, response *pb.AddLikedSongsResponse) (errorCode int32) {
+func ToggleLikedSongFlow(ctx context.Context, request *pb.ToggleLikedSongRequest, response *pb.ToggleLikedSongResponse) (errorCode int32) {
 	userId := request.GetRequestMeta().GetUserId()
-	topSongs := request.GetLikedSongs() // assumed []*pb.LikedArtis
+	topSong := request.GetLikedSong()
 
-	if userId == 0 || len(topSongs) == 0 {
+	if userId == 0 || topSong == nil {
 		response.Error = proto.Int32(int32(pb.Constant_ERROR_CODE_INVALID_REQUEST_PARAM))
 		response.ErrorMessage = proto.String("Invalid parameters")
 		return int32(pb.Constant_ERROR_CODE_INVALID_REQUEST_PARAM)
 	}
 
-	// db is your *gorm.DB, you may need to inject it
-	_, err := module.AddLikedSongs(ctx, userId, topSongs)
+	var err error
+	if topSong.GetIsLiked() {
+		err = module.DeleteLikedSong(ctx, userId, topSong.GetExternalAmId())
+	} else {
+		_, err = module.AddLikedSong(ctx, userId, topSong)
+	}
+
 	if err != nil {
 		response.Error = proto.Int32(int32(pb.Constant_ERROR_CODE_BUSINESS_ERROR))
-		response.ErrorMessage = proto.String("Failed to update top artists, please try again later.")
+		response.ErrorMessage = proto.String("Failed to update liked songs, please try again later.")
 		return int32(pb.Constant_ERROR_CODE_BUSINESS_ERROR)
 	}
 

@@ -72,6 +72,13 @@ type UserTopPick struct {
 	DeletedAt                *time.Time `gorm:"column:deleted_at"`
 }
 
+func (u *UserTopPick) GetAppleMusicExternalID() string {
+	if u == nil || u.AppleMusicExternalID == nil {
+		return ""
+	}
+	return *u.AppleMusicExternalID
+}
+
 func (u *UserTopPick) IsSong() bool {
 	if u == nil || u.Type == nil {
 		return false

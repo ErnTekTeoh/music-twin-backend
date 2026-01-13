@@ -2,12 +2,47 @@ package module
 
 import (
 	"context"
+	"errors"
 	"google.golang.org/protobuf/proto"
 	"gorm.io/gorm"
 	"music-twin-backend/data"
 	"music-twin-backend/proto/pb"
 	"time"
 )
+
+func AddLikedSong(ctx context.Context, userId int32, song *pb.LikedSong) (*data.UserTopPick, error) {
+	likedSongs, err := AddLikedSongs(ctx, userId, []*pb.LikedSong{song})
+	if err != nil {
+		return nil, err
+	}
+
+	if len(likedSongs) == 0 {
+		return nil, errors.New("Error liking song")
+	}
+	return likedSongs[0], nil
+}
+
+func DeleteLikedSong(ctx context.Context, userId int32, externalAppleId string) error {
+	likedSongs, err := data.GetLikedSong(ctx, userId, externalAppleId)
+	if err != nil {
+		return err
+	}
+
+	if likedSongs == nil || len(likedSongs) == 0 {
+		return errors.New("Liked song not found")
+	}
+
+	timeNow := time.Now()
+	for _, each := range likedSongs {
+		each.DeletedAt = &timeNow
+		err = data.UpdateTopPick(ctx, each)
+	}
+
+	if err != nil {
+		return err
+	}
+	return nil
+}
 
 func CreateUserAllTimeTopArtistsTx(ctx context.Context, userId int32, artists []*pb.LikedArtist) ([]*data.UserTopPick, error) {
 	loc, _ := time.LoadLocation("Asia/Kuala_Lumpur")
@@ -43,7 +78,7 @@ func CreateUserAllTimeTopArtistsTx(ctx context.Context, userId int32, artists []
 	return picks, nil
 }
 
-func CreateUserAllTimeTopSongsTx(ctx context.Context, userId int32, songs []*pb.LikedSong) ([]*data.UserTopPick, error) {
+func AddLikedSongs(ctx context.Context, userId int32, songs []*pb.LikedSong) ([]*data.UserTopPick, error) {
 	loc, _ := time.LoadLocation("Asia/Kuala_Lumpur")
 	now := time.Now().In(loc)
 
@@ -93,6 +128,30 @@ func GetUserTopPicks(ctx context.Context, userId int32) (topSongs []*data.UserTo
 		}
 	}
 	return songs, artists
+}
+
+func GetUserLikedSongsMap(ctx context.Context, userId int32) (likedMap map[string]bool) {
+	userLikedSongs := GetUserLikedSongs(ctx, userId)
+	likedMap = make(map[string]bool)
+	for _, eachLikedSong := range userLikedSongs {
+		likedMap[eachLikedSong.GetAppleMusicExternalID()] = true
+	}
+
+	return likedMap
+}
+
+func GetUserLikedSongs(ctx context.Context, userId int32) (likedSongs []*data.UserTopPick) {
+	allData, err := data.GetUserTopPicks(ctx, userId)
+	songs := make([]*data.UserTopPick, 0)
+	if err != nil {
+		return songs
+	}
+	for _, each := range allData {
+		if each.IsSong() {
+			songs = append(songs, each)
+		}
+	}
+	return songs
 }
 
 //

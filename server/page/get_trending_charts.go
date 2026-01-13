@@ -46,14 +46,23 @@ func GetTrendingChartsFlow(ctx context.Context, request *pb.GetTrendingChartsReq
 	response.Error = proto.Int32(int32(pb.Constant_ERROR_CODE_SUCCESS))
 	response.ErrorMessage = proto.String("success")
 	topSongs, topAlbums := ConvertAppleMusicChartResultsToResp(songs)
+
+	likedMap := module.GetUserLikedSongsMap(ctx, userId)
+
+	for _, eachSong := range topSongs {
+		eachSong.IsLiked = proto.Bool(false)
+		if liked, _ := likedMap[eachSong.GetExternalAmId()]; liked {
+			eachSong.IsLiked = proto.Bool(true)
+		}
+	}
 	response.TopSongs = topSongs
 	response.TopAlbums = topAlbums
 
 	return int32(pb.Constant_ERROR_CODE_SUCCESS)
 }
 
-func ConvertAppleMusicChartResultsToResp(res *common.AppleMusicChartAPIResponse) (topSongs []*pb.TopChartSong, topAlbums []*pb.TopChartAlbum) {
-	finalSongs := make([]*pb.TopChartSong, 0)
+func ConvertAppleMusicChartResultsToResp(res *common.AppleMusicChartAPIResponse) (topSongs []*pb.LikedSong, topAlbums []*pb.TopChartAlbum) {
+	finalSongs := make([]*pb.LikedSong, 0)
 
 	finalAlbums := make([]*pb.TopChartAlbum, 0)
 	if len(res.Results.Songs) != 0 && res.Results.Songs[0].Data != nil {
@@ -61,11 +70,11 @@ func ConvertAppleMusicChartResultsToResp(res *common.AppleMusicChartAPIResponse)
 			artworkUrl := song.Attributes.Artwork.Url
 			artworkUrl = strings.ReplaceAll(artworkUrl, "{w}", "500")
 			artworkUrl = strings.ReplaceAll(artworkUrl, "{h}", "500")
-			finalSongs = append(finalSongs, &pb.TopChartSong{
-				SongName:      proto.String(song.Attributes.Name),
-				ArtistName:    proto.String(song.Attributes.ArtistName),
-				TrackImageUrl: proto.String(artworkUrl),
-				ExternalAmId:  proto.String(song.ID),
+			finalSongs = append(finalSongs, &pb.LikedSong{
+				SongName:     proto.String(song.Attributes.Name),
+				ArtistName:   proto.String(song.Attributes.ArtistName),
+				SongImageUrl: proto.String(artworkUrl),
+				ExternalAmId: proto.String(song.ID),
 			})
 		}
 	}
