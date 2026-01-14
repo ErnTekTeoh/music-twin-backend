@@ -35,4 +35,16 @@ func InitTopPicksEndpoints(r *mux.Router) {
 		Request:   &pb.GetLikedSongsRequest{},
 		Response:  &pb.GetLikedSongsResponse{},
 	}))
+
+	r.HandleFunc(TopPickEndpointPrefix+GetLikedArtistsSuffix, middleware.HttpProcessorWrapper(middleware.HttpProcessor{
+		Processor: GetLikedArtists,
+		Request:   &pb.GetLikedArtistsRequest{},
+		Response:  &pb.GetLikedArtistsResponse{},
+	}))
+
+	r.HandleFunc(TopPickEndpointPrefix+ToggleLikedArtistUrlSuffix, middleware.HttpProcessorWrapper(middleware.HttpProcessor{
+		Processor: ToggleLikedArtist,
+		Request:   &pb.ToggleLikedArtistRequest{},
+		Response:  &pb.ToggleLikedArtistResponse{},
+	}))
 }

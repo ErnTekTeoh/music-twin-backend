@@ -10,6 +10,18 @@ import (
 	"time"
 )
 
+func AddLikedArtist(ctx context.Context, userId int32, newData *pb.LikedArtist) (*data.UserTopPick, error) {
+	likedArtists, err := AddLikedArtists(ctx, userId, []*pb.LikedArtist{newData})
+	if err != nil {
+		return nil, err
+	}
+
+	if len(likedArtists) == 0 {
+		return nil, errors.New("Error liking artist")
+	}
+	return likedArtists[0], nil
+}
+
 func AddLikedSong(ctx context.Context, userId int32, song *pb.LikedSong) (*data.UserTopPick, error) {
 	likedSongs, err := AddLikedSongs(ctx, userId, []*pb.LikedSong{song})
 	if err != nil {
@@ -51,10 +63,7 @@ func CreateUserAllTimeTopArtistsTx(ctx context.Context, userId int32, artists []
 	var picks []*data.UserTopPick
 
 	err := data.GetDB().WithContext(ctx).Transaction(func(tx *gorm.DB) error {
-		for i, artist := range artists {
-			if i >= 3 {
-				break
-			}
+		for _, artist := range artists {
 			topPick := &data.UserTopPick{
 				UserID:                   proto.Int32(userId),
 				Type:                     proto.String("artist"),
@@ -85,10 +94,8 @@ func AddLikedSongs(ctx context.Context, userId int32, songs []*pb.LikedSong) ([]
 	var picks []*data.UserTopPick
 
 	err := data.GetDB().WithContext(ctx).Transaction(func(tx *gorm.DB) error {
-		for i, song := range songs {
-			if i >= 3 {
-				break
-			}
+		for _, song := range songs {
+
 			topPick := &data.UserTopPick{
 				UserID:                 proto.Int32(userId),
 				Type:                   proto.String("song"),
@@ -152,6 +159,59 @@ func GetUserLikedSongs(ctx context.Context, userId int32) (likedSongs []*data.Us
 		}
 	}
 	return songs
+}
+
+func AddLikedArtists(ctx context.Context, userId int32, datas []*pb.LikedArtist) ([]*data.UserTopPick, error) {
+	loc, _ := time.LoadLocation("Asia/Kuala_Lumpur")
+	now := time.Now().In(loc)
+
+	var picks []*data.UserTopPick
+
+	err := data.GetDB().WithContext(ctx).Transaction(func(tx *gorm.DB) error {
+		for _, each := range datas {
+			topPick := &data.UserTopPick{
+				UserID:                   proto.Int32(userId),
+				Type:                     proto.String("artist"),
+				AppleMusicArtistImageUrl: each.ArtistImageUrl,
+				AppleMusicArtistName:     each.ArtistName,
+				AppleMusicExternalID:     each.ExternalAmId,
+				CreatedAt:                &now,
+				UpdatedAt:                &now,
+			}
+			if err := tx.Create(topPick).Error; err != nil {
+				return err // rollback transaction
+			}
+			picks = append(picks, topPick)
+		}
+		return nil // commit transaction
+	})
+
+	if err != nil {
+		return nil, err
+	}
+	return picks, nil
+}
+
+func DeleteLikedArtist(ctx context.Context, userId int32, externalAppleId string) error {
+	likedArtists, err := data.GetLikedArtist(ctx, userId, externalAppleId)
+	if err != nil {
+		return err
+	}
+
+	if likedArtists == nil || len(likedArtists) == 0 {
+		return errors.New("Liked artist not found")
+	}
+
+	timeNow := time.Now()
+	for _, each := range likedArtists {
+		each.DeletedAt = &timeNow
+		err = data.UpdateTopPick(ctx, each)
+	}
+
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 //

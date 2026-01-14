@@ -120,6 +120,7 @@ message LikedArtist {
   optional string artist_name = 1;
   optional string external_am_id = 2;
   optional string artist_image_url = 3;
+  optional bool is_liked = 4;
 }
 
 // must be used for search for liked songs + add liked songs
@@ -282,4 +283,26 @@ message ToggleLikedSongResponse {
   optional int32 error = 1;
   optional string error_message = 2;
   optional bool is_successful = 3;
+}
+
+message ToggleLikedArtistRequest {
+  optional RequestMeta request_meta = 1;
+  optional LikedArtist liked_artist = 2;
+}
+
+message ToggleLikedArtistResponse {
+  optional int32 error = 1;
+  optional string error_message = 2;
+  optional bool is_successful = 3;
+}
+
+
+message GetLikedArtistsRequest {
+  optional RequestMeta request_meta = 1;
+}
+
+message GetLikedArtistsResponse {
+  optional int32 error = 1;
+  optional string error_message = 2;
+  repeated LikedArtist liked_artists = 3;
 }
