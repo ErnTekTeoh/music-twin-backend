@@ -3097,6 +3097,187 @@ func (x *GetLikedArtistsResponse) GetLikedArtists() []*LikedArtist {
 	return nil
 }
 
+type GetConnectPageRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	RequestMeta *RequestMeta `protobuf:"bytes,1,opt,name=request_meta,json=requestMeta" json:"request_meta,omitempty"`
+}
+
+func (x *GetConnectPageRequest) Reset() {
+	*x = GetConnectPageRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_proto_service_proto_msgTypes[49]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetConnectPageRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetConnectPageRequest) ProtoMessage() {}
+
+func (x *GetConnectPageRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_service_proto_msgTypes[49]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetConnectPageRequest.ProtoReflect.Descriptor instead.
+func (*GetConnectPageRequest) Descriptor() ([]byte, []int) {
+	return file_proto_service_proto_rawDescGZIP(), []int{49}
+}
+
+func (x *GetConnectPageRequest) GetRequestMeta() *RequestMeta {
+	if x != nil {
+		return x.RequestMeta
+	}
+	return nil
+}
+
+type GetConnectPageResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Error               *int32                `protobuf:"varint,1,opt,name=error" json:"error,omitempty"`
+	ErrorMessage        *string               `protobuf:"bytes,2,opt,name=error_message,json=errorMessage" json:"error_message,omitempty"`
+	CommunityHighlights []*CommunityHighlight `protobuf:"bytes,3,rep,name=community_highlights,json=communityHighlights" json:"community_highlights,omitempty"`
+}
+
+func (x *GetConnectPageResponse) Reset() {
+	*x = GetConnectPageResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_proto_service_proto_msgTypes[50]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetConnectPageResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetConnectPageResponse) ProtoMessage() {}
+
+func (x *GetConnectPageResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_service_proto_msgTypes[50]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetConnectPageResponse.ProtoReflect.Descriptor instead.
+func (*GetConnectPageResponse) Descriptor() ([]byte, []int) {
+	return file_proto_service_proto_rawDescGZIP(), []int{50}
+}
+
+func (x *GetConnectPageResponse) GetError() int32 {
+	if x != nil && x.Error != nil {
+		return *x.Error
+	}
+	return 0
+}
+
+func (x *GetConnectPageResponse) GetErrorMessage() string {
+	if x != nil && x.ErrorMessage != nil {
+		return *x.ErrorMessage
+	}
+	return ""
+}
+
+func (x *GetConnectPageResponse) GetCommunityHighlights() []*CommunityHighlight {
+	if x != nil {
+		return x.CommunityHighlights
+	}
+	return nil
+}
+
+type CommunityHighlight struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Type           *string `protobuf:"bytes,1,opt,name=type" json:"type,omitempty"` // e.g. "song_like", "taste_overlap"
+	Title          *string `protobuf:"bytes,2,opt,name=title" json:"title,omitempty"`
+	Subtitle       *string `protobuf:"bytes,3,opt,name=subtitle" json:"subtitle,omitempty"`
+	AvatarImageUrl *string `protobuf:"bytes,4,opt,name=avatar_image_url,json=avatarImageUrl" json:"avatar_image_url,omitempty"`
+}
+
+func (x *CommunityHighlight) Reset() {
+	*x = CommunityHighlight{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_proto_service_proto_msgTypes[51]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *CommunityHighlight) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CommunityHighlight) ProtoMessage() {}
+
+func (x *CommunityHighlight) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_service_proto_msgTypes[51]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CommunityHighlight.ProtoReflect.Descriptor instead.
+func (*CommunityHighlight) Descriptor() ([]byte, []int) {
+	return file_proto_service_proto_rawDescGZIP(), []int{51}
+}
+
+func (x *CommunityHighlight) GetType() string {
+	if x != nil && x.Type != nil {
+		return *x.Type
+	}
+	return ""
+}
+
+func (x *CommunityHighlight) GetTitle() string {
+	if x != nil && x.Title != nil {
+		return *x.Title
+	}
+	return ""
+}
+
+func (x *CommunityHighlight) GetSubtitle() string {
+	if x != nil && x.Subtitle != nil {
+		return *x.Subtitle
+	}
+	return ""
+}
+
+func (x *CommunityHighlight) GetAvatarImageUrl() string {
+	if x != nil && x.AvatarImageUrl != nil {
+		return *x.AvatarImageUrl
+	}
+	return ""
+}
+
 var File_proto_service_proto protoreflect.FileDescriptor
 
 var file_proto_service_proto_rawDesc = []byte{
@@ -3489,8 +3670,30 @@ var file_proto_service_proto_rawDesc = []byte{
 	0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x12, 0x31, 0x0a, 0x0d, 0x6c, 0x69, 0x6b, 0x65, 0x64,
 	0x5f, 0x61, 0x72, 0x74, 0x69, 0x73, 0x74, 0x73, 0x18, 0x03, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x0c,
 	0x2e, 0x4c, 0x69, 0x6b, 0x65, 0x64, 0x41, 0x72, 0x74, 0x69, 0x73, 0x74, 0x52, 0x0c, 0x6c, 0x69,
-	0x6b, 0x65, 0x64, 0x41, 0x72, 0x74, 0x69, 0x73, 0x74, 0x73, 0x42, 0x05, 0x5a, 0x03, 0x2f, 0x70,
-	0x62,
+	0x6b, 0x65, 0x64, 0x41, 0x72, 0x74, 0x69, 0x73, 0x74, 0x73, 0x22, 0x48, 0x0a, 0x15, 0x47, 0x65,
+	0x74, 0x43, 0x6f, 0x6e, 0x6e, 0x65, 0x63, 0x74, 0x50, 0x61, 0x67, 0x65, 0x52, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x12, 0x2f, 0x0a, 0x0c, 0x72, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x5f, 0x6d,
+	0x65, 0x74, 0x61, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x0c, 0x2e, 0x52, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x4d, 0x65, 0x74, 0x61, 0x52, 0x0b, 0x72, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
+	0x4d, 0x65, 0x74, 0x61, 0x22, 0x9b, 0x01, 0x0a, 0x16, 0x47, 0x65, 0x74, 0x43, 0x6f, 0x6e, 0x6e,
+	0x65, 0x63, 0x74, 0x50, 0x61, 0x67, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12,
+	0x14, 0x0a, 0x05, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x05,
+	0x65, 0x72, 0x72, 0x6f, 0x72, 0x12, 0x23, 0x0a, 0x0d, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x5f, 0x6d,
+	0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0c, 0x65, 0x72,
+	0x72, 0x6f, 0x72, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x12, 0x46, 0x0a, 0x14, 0x63, 0x6f,
+	0x6d, 0x6d, 0x75, 0x6e, 0x69, 0x74, 0x79, 0x5f, 0x68, 0x69, 0x67, 0x68, 0x6c, 0x69, 0x67, 0x68,
+	0x74, 0x73, 0x18, 0x03, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x13, 0x2e, 0x43, 0x6f, 0x6d, 0x6d, 0x75,
+	0x6e, 0x69, 0x74, 0x79, 0x48, 0x69, 0x67, 0x68, 0x6c, 0x69, 0x67, 0x68, 0x74, 0x52, 0x13, 0x63,
+	0x6f, 0x6d, 0x6d, 0x75, 0x6e, 0x69, 0x74, 0x79, 0x48, 0x69, 0x67, 0x68, 0x6c, 0x69, 0x67, 0x68,
+	0x74, 0x73, 0x22, 0x84, 0x01, 0x0a, 0x12, 0x43, 0x6f, 0x6d, 0x6d, 0x75, 0x6e, 0x69, 0x74, 0x79,
+	0x48, 0x69, 0x67, 0x68, 0x6c, 0x69, 0x67, 0x68, 0x74, 0x12, 0x12, 0x0a, 0x04, 0x74, 0x79, 0x70,
+	0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x74, 0x79, 0x70, 0x65, 0x12, 0x14, 0x0a,
+	0x05, 0x74, 0x69, 0x74, 0x6c, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x74, 0x69,
+	0x74, 0x6c, 0x65, 0x12, 0x1a, 0x0a, 0x08, 0x73, 0x75, 0x62, 0x74, 0x69, 0x74, 0x6c, 0x65, 0x18,
+	0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x73, 0x75, 0x62, 0x74, 0x69, 0x74, 0x6c, 0x65, 0x12,
+	0x28, 0x0a, 0x10, 0x61, 0x76, 0x61, 0x74, 0x61, 0x72, 0x5f, 0x69, 0x6d, 0x61, 0x67, 0x65, 0x5f,
+	0x75, 0x72, 0x6c, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0e, 0x61, 0x76, 0x61, 0x74, 0x61,
+	0x72, 0x49, 0x6d, 0x61, 0x67, 0x65, 0x55, 0x72, 0x6c, 0x42, 0x05, 0x5a, 0x03, 0x2f, 0x70, 0x62,
 }
 
 var (
@@ -3506,7 +3709,7 @@ func file_proto_service_proto_rawDescGZIP() []byte {
 }
 
 var file_proto_service_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_proto_service_proto_msgTypes = make([]protoimpl.MessageInfo, 49)
+var file_proto_service_proto_msgTypes = make([]protoimpl.MessageInfo, 52)
 var file_proto_service_proto_goTypes = []interface{}{
 	(Constant_ErrorCode)(0),           // 0: Constant.ErrorCode
 	(*Constant)(nil),                  // 1: Constant
@@ -3558,6 +3761,9 @@ var file_proto_service_proto_goTypes = []interface{}{
 	(*ToggleLikedArtistResponse)(nil), // 47: ToggleLikedArtistResponse
 	(*GetLikedArtistsRequest)(nil),    // 48: GetLikedArtistsRequest
 	(*GetLikedArtistsResponse)(nil),   // 49: GetLikedArtistsResponse
+	(*GetConnectPageRequest)(nil),     // 50: GetConnectPageRequest
+	(*GetConnectPageResponse)(nil),    // 51: GetConnectPageResponse
+	(*CommunityHighlight)(nil),        // 52: CommunityHighlight
 }
 var file_proto_service_proto_depIdxs = []int32{
 	2,  // 0: RegisterUserRequest.request_meta:type_name -> RequestMeta
@@ -3594,11 +3800,13 @@ var file_proto_service_proto_depIdxs = []int32{
 	19, // 31: ToggleLikedArtistRequest.liked_artist:type_name -> LikedArtist
 	2,  // 32: GetLikedArtistsRequest.request_meta:type_name -> RequestMeta
 	19, // 33: GetLikedArtistsResponse.liked_artists:type_name -> LikedArtist
-	34, // [34:34] is the sub-list for method output_type
-	34, // [34:34] is the sub-list for method input_type
-	34, // [34:34] is the sub-list for extension type_name
-	34, // [34:34] is the sub-list for extension extendee
-	0,  // [0:34] is the sub-list for field type_name
+	2,  // 34: GetConnectPageRequest.request_meta:type_name -> RequestMeta
+	52, // 35: GetConnectPageResponse.community_highlights:type_name -> CommunityHighlight
+	36, // [36:36] is the sub-list for method output_type
+	36, // [36:36] is the sub-list for method input_type
+	36, // [36:36] is the sub-list for extension type_name
+	36, // [36:36] is the sub-list for extension extendee
+	0,  // [0:36] is the sub-list for field type_name
 }
 
 func init() { file_proto_service_proto_init() }
@@ -4195,6 +4403,42 @@ func file_proto_service_proto_init() {
 				return nil
 			}
 		}
+		file_proto_service_proto_msgTypes[49].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetConnectPageRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_proto_service_proto_msgTypes[50].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetConnectPageResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_proto_service_proto_msgTypes[51].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CommunityHighlight); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -4202,7 +4446,7 @@ func file_proto_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_proto_service_proto_rawDesc,
 			NumEnums:      1,
-			NumMessages:   49,
+			NumMessages:   52,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

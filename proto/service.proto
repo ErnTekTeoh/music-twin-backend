@@ -306,3 +306,20 @@ message GetLikedArtistsResponse {
   optional string error_message = 2;
   repeated LikedArtist liked_artists = 3;
 }
+
+message GetConnectPageRequest {
+  optional RequestMeta request_meta = 1;
+}
+
+message GetConnectPageResponse {
+  optional int32 error = 1;
+  optional string error_message = 2;
+  repeated CommunityHighlight community_highlights = 3;
+}
+
+message CommunityHighlight {
+  optional string type = 1;                      // e.g. "song_like", "taste_overlap"
+  optional string title = 2;
+  optional string subtitle = 3;
+  optional string avatar_image_url = 4;
+}

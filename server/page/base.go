@@ -23,4 +23,10 @@ func InitPageEndpoints(r *mux.Router) {
 		Request:   &pb.GetTrendingChartsRequest{},
 		Response:  &pb.GetTrendingChartsResponse{},
 	}))
+
+	r.HandleFunc(PageEndpointPrefix+GetConnectPageUrlSuffix, middleware.HttpProcessorWrapper(middleware.HttpProcessor{
+		Processor: GetConnectPage,
+		Request:   &pb.GetConnectPageRequest{},
+		Response:  &pb.GetConnectPageResponse{},
+	}))
 }
