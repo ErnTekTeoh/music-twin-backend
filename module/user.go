@@ -6,6 +6,7 @@ import (
 	"encoding/hex"
 	"errors"
 	"google.golang.org/protobuf/proto"
+	"math/rand"
 	"music-twin-backend/common"
 	"music-twin-backend/data"
 	"time"
@@ -26,11 +27,12 @@ func RegisterUser(ctx context.Context, email, password string) (user *data.User,
 	salt := common.GenerateSalt()
 	finalHash := HashUserPassword(password, salt)
 	newUser, createErr := data.CreateNewUser(ctx, &data.User{
-		Email:     proto.String(email),
-		Salt:      proto.String(salt),
-		Hash:      proto.String(finalHash),
-		CreatedAt: &timeNow,
-		UpdatedAt: &timeNow,
+		Email:            proto.String(email),
+		Salt:             proto.String(salt),
+		Hash:             proto.String(finalHash),
+		CreatedAt:        &timeNow,
+		UpdatedAt:        &timeNow,
+		UserReferralCode: proto.String(GenerateUserReferralCode()),
 	})
 	if createErr != nil {
 		return nil, createErr
@@ -170,4 +172,14 @@ func UpdateWhatsappHandle(ctx context.Context, userId int32, handle string) erro
 
 func GetUserDetails(ctx context.Context, userId int32) (*data.User, error) {
 	return data.GetUserByUserId(ctx, userId)
+}
+
+func GenerateUserReferralCode() string {
+	const charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+	rand.Seed(time.Now().UnixNano())
+	code := make([]byte, 6)
+	for i := range code {
+		code[i] = charset[rand.Intn(len(charset))]
+	}
+	return string(code)
 }

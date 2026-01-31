@@ -34,9 +34,19 @@ func GetConnectPageFlow(ctx context.Context, request *pb.GetConnectPageRequest, 
 		return int32(pb.Constant_ERROR_CODE_INVALID_REQUEST_PARAM)
 	}
 
+	userDetails, err := module.GetUserDetails(ctx, userId)
+	if err != nil {
+		response.Error = proto.Int32(int32(pb.Constant_ERROR_CODE_BUSINESS_ERROR))
+		response.ErrorMessage = proto.String("Error loading connect page")
+		return int32(pb.Constant_ERROR_CODE_BUSINESS_ERROR)
+	}
 	response.Error = proto.Int32(int32(pb.Constant_ERROR_CODE_SUCCESS))
 	response.ErrorMessage = proto.String("success")
 	response.CommunityHighlights = module.GetRandomCommunityMockHighlightsFromTopPicks(ctx, userId)
-
+	response.UserDetails = &pb.UserDetails{
+		DisplayName:      userDetails.DisplayName,
+		ProfileImageUrl:  userDetails.ProfileImageURL,
+		UserReferralCode: userDetails.UserReferralCode,
+	}
 	return int32(pb.Constant_ERROR_CODE_SUCCESS)
 }

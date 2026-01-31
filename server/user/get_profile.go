@@ -47,8 +47,9 @@ func GetUserProfileFlow(ctx context.Context, request *pb.GetUserProfileRequest, 
 	response.Error = proto.Int32(int32(pb.Constant_ERROR_CODE_SUCCESS))
 	response.ErrorMessage = proto.String("success")
 	response.UserDetails = &pb.UserDetails{
-		DisplayName:     user.DisplayName,
-		ProfileImageUrl: user.ProfileImageURL,
+		DisplayName:      user.DisplayName,
+		ProfileImageUrl:  user.ProfileImageURL,
+		UserReferralCode: user.UserReferralCode,
 	}
 
 	response.MySocials = &pb.MySocials{

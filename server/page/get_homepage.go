@@ -35,6 +35,8 @@ func GetHomepageFlow(ctx context.Context, request *pb.GetHomepageRequest, respon
 		return int32(pb.Constant_ERROR_CODE_INVALID_REQUEST_PARAM)
 	}
 
+	userDetails, _ := module.GetUserDetails(ctx, userId)
+
 	suggestionCards, err := module.GetSongSuggestionCards(ctx, 10, 0)
 	if err != nil {
 		response.Error = proto.Int32(int32(pb.Constant_ERROR_CODE_BUSINESS_ERROR))
@@ -56,6 +58,13 @@ func GetHomepageFlow(ctx context.Context, request *pb.GetHomepageRequest, respon
 	response.Error = proto.Int32(int32(pb.Constant_ERROR_CODE_SUCCESS))
 	response.ErrorMessage = proto.String("success")
 	response.Cards = homepageCards
+	if userDetails != nil {
+		response.UserDetails = &pb.UserDetails{
+			DisplayName:      userDetails.DisplayName,
+			ProfileImageUrl:  userDetails.ProfileImageURL,
+			UserReferralCode: userDetails.UserReferralCode,
+		}
+	}
 
 	return int32(pb.Constant_ERROR_CODE_SUCCESS)
 }
